@@ -19,8 +19,7 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(1200, new double[] { 800, 900, 990, 1200 })]
         public void RetornarMaiorValorDadoLeileoComPeloMenosUmLance(double valorEsperado, double[] lances)
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão com pelo menos um lance
+            #region Arrange
             IModalidadeAvaliacao modalidade = new MaiorValor();
             var leilao = new Leilao("Van Gogh", modalidade);
             var marta = new Interessada("Marta", leilao);
@@ -41,59 +40,59 @@ namespace Alura.LeilaoOnline.Tests
                     leilao.ReceberLance(priscila, lance);
                 }
             }
+            #endregion
 
-            //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-            //Quando o leilão termina
+            #region Act
             leilao.TerminarPregao();
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
-            //Então o valor esperado é o maior valor
-            //E o cliente ganhador é o que deu o maior lance
+            #region Assert
             var valorObtido = leilao.Ganhador.Valor;
             Assert.Equal(valorEsperado, valorObtido);
+            #endregion
         }
 
         [Fact]
         public void RetornarZeroDadoLeilaoSemLances()
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão sem qualquer lance
+            #region Arrange
             var modalidade = new MaiorValor();
             var leilao = new Leilao("Van Gogh", modalidade);
             leilao.IniciarPregao();
+            #endregion
 
-            //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-            //Quando o leilão termina 
+            #region Act
             leilao.TerminarPregao();
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
+            #region Assert
             var valorEsperado = 0;
             var valorObtido = leilao.Ganhador.Valor;
             Assert.Equal(valorEsperado, valorObtido);
+            #endregion
         }
 
         [Fact]
         public void LancaInvalidOperationExceptionDadoPregaoNaoIniciado()
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão sem qualquer lance
+            #region Arrange
             var modalidade = new MaiorValor();
             var leilao = new Leilao("Van Gogh", modalidade);
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
+            #region Assert
             Assert.Throws<InvalidOperationException>(
-                //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-                //Quando o leilão termina. 
+                //Act
                 () => leilao.TerminarPregao() 
             );
+            #endregion
         }
 
         [Theory]
         [InlineData(1200, 1250, new double[] { 800, 1150, 1400, 1250 })]
         public void RetornaValorSuperiorMaisProximoDadoLeilaoNessaModalidade(double valorDestino, double valorEsperado, double[] lances)
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão cois interessados
+            #region Arrange
             IModalidadeAvaliacao modalidade = new LanceSuperiorMaisProximo(valorDestino);
             var leilao = new Leilao("Van Gogh", modalidade);
             var marta = new Interessada("Marta", leilao);
@@ -114,15 +113,16 @@ namespace Alura.LeilaoOnline.Tests
                     leilao.ReceberLance(priscila, lance);
                 }
             }
+            #endregion
 
-            //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-            //Quando o leilão termina
+            #region Act
             leilao.TerminarPregao();
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
-            //Então o valor esperado é o mais próxio ou maior valor
+            #region Assert
             var valorObtido = leilao.Ganhador.Valor;
             Assert.Equal(valorEsperado, valorObtido);
+            #endregion
         }
     }
 }

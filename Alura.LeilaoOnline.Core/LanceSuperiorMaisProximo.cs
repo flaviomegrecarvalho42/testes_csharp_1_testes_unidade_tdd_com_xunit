@@ -4,12 +4,12 @@ namespace Alura.LeilaoOnline.Core
 {
     public class LanceSuperiorMaisProximo : IModalidadeAvaliacao
     {
-        public double ValorDestino { get; }
-
         public LanceSuperiorMaisProximo(double valorDestino)
         {
             ValorDestino = valorDestino;
         }
+
+        public double ValorDestino { get; }
 
         public Lance Avaliar(Leilao leilao)
         {

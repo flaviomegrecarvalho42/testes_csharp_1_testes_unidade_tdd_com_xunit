@@ -11,8 +11,7 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(4, new double[] { 1000, 1200, 1400, 1300 })]
         public void NaoPermiteNovosLancesDadoLeilaoFinalizado(int qtdeEsperada, double[] lances)
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão finalizado com X lances
+            #region Arrange
             var modalidade = new MaiorValor();
             var leilao = new Leilao("Van Gogh", modalidade);
             var marta = new Interessada("Marta", leilao);
@@ -35,38 +34,39 @@ namespace Alura.LeilaoOnline.Tests
             }
 
             leilao.TerminarPregao();
+            #endregion
 
-            //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-            //Quando o leilão recebe nova oferta de lance 
+            #region Act
             leilao.ReceberLance(marta, 1000);
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
-            //Então a quantidade de lances continua sendo X
+            #region Assert
             var qtdeObtida = leilao.Lances.Count();
             Assert.Equal(qtdeEsperada, qtdeObtida);
+            #endregion
         }
 
         [Fact]
         public void NaoAceitaProximoLanceDadoMesmoClienteRealizouUltimoLance()
         {
-            //Arrange - Organizar todas as pré-condições e entradas necessárias.
-            //Dado o leilão finalizado com X lances
+            #region Arrange
             var modalidade = new MaiorValor();
             var leilao = new Leilao("Van Gogh", modalidade);
             var marta = new Interessada("Marta", leilao);
 
             leilao.IniciarPregao();
             leilao.ReceberLance(marta, 800);
+            #endregion
 
-            //Act - Ação no objeto ou método em teste. Qual o método está sendo testado.
-            //Quando o leilão recebe nova oferta de lance 
+            #region Act
             leilao.ReceberLance(marta, 1000);
+            #endregion
 
-            //Assert - Verificar os resultados esperados. Afirmar que os resultados esperados ocorreram.
-            //Então a quantidade de lances continua sendo X
+            #region Assert
             var qtdeEsperada = 1;
             var qtdeObtida = leilao.Lances.Count();
             Assert.Equal(qtdeEsperada, qtdeObtida);
+            #endregion
         }
     }
 }
